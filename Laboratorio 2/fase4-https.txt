@@ -1,0 +1,3 @@
+Fase 4 - HTTPS
+
+Detalles de la configuración HTTPS con certificado local.

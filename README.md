@@ -1,1 +1,0 @@
-# gsw-practico-unidad2-equipo6
