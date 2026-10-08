@@ -1,3 +1,54 @@
-Fase 1 - Dimensionamiento
+===============================================================================
+                       FASE 1: DIMENSIONAMIENTO COLABORATIVO
+               Proyecto: Infraestructura Web "Dulce Hogar" - Equipo 6
+===============================================================================
 
-Texto de referencia para la fase de dimensionamiento.
+1. SUFICIENCIA DE RECURSOS Y FACTOR PICO
+-------------------------------------------------------------------------------
+Respuesta:
+Los 2 vCPU y 4 GB de RAM son  suficientes para el tráfico diario normal 
+de 500 visitas, ya que representa una carga promedio muy baja para Apache. Para el 
+pico de 3,000 visitas también son suficientes, siempre que Apache esté bien optimizado, 
+ya que equivale a pocos usuarios concurrentes por segundo.
+
+Cálculo del Factor Pico:
+Factor Pico = (Tráfico Pico en Días Festivos) / (Tráfico Diario Normal)
+Factor Pico = 3,000 visitas / 500 visitas = 6x
+
+El factor pico es de 6x, lo que indica que en días festivos la demanda se sextuplica 
+respecto a un día común.
+
+
+2. ESTRATEGIA DE ESCALADO: VERTICAL VS. HORIZONTAL
+-------------------------------------------------------------------------------
+Respuesta:
+Recomendamos el ESCALADO VERTICAL. Para una PyME como "Dulce Hogar", incrementar la CPU 
+o RAM del mismo servidor en días festivos es la opción más económica y rápida de implementar. 
+El escalado horizontal aumentaría innecesariamente los costos en balanceadores de carga 
+y requeriría un tiempo de configuración mucho mayor para el volumen de tráfico estimado
+
+
+3. MONITOREO Y RECURSO CRÍTICO
+-------------------------------------------------------------------------------
+Respuesta:
+Vigilaríamos PRIMERO la memoria RAM. Si la RAM se agota por múltiples conexiones de Apache, 
+el servidor Ubuntu recurre a la memoria SWAP en disco, volviendo el sistema extremadamente lento. 
+En segundo lugar monitorearíamos la CPU para evitar saturación de peticiones. La red y el 
+disco SSD de 40 GB son de menor riesgo inmediato para esta carga.
+
+
+4. DECISIÓN EN EQUIPO: TABLA COMPARATIVA (NUBE VS. SERVIDOR LOCAL)
+-------------------------------------------------------------------------------
+Decisión:
+Para el desarrollo y evaluación del laboratorio se utiliza Servidor Local (WSL2) por costo $0 
+y control de pruebas. Sin embargo, para producción comercial de "Dulce Hogar", se recomienda 
+un servidor en la Nube (VPS) para garantizar disponibilidad 24/7.
+
++------------------+----------------------------------+----------------------------------+
+| Criterio         | Servidor Local (WSL2 / On-Prem)  | Servidor en la Nube (VPS Cloud)  |
++------------------+----------------------------------+----------------------------------+
+| Costo Inicial    | $0 (usa el hardware existente).  | Muy bajo (pago por uso mensual). |
+| Escalabilidad    | Limitada al hardware físico PC.  | Alta y rápida (ajuste inmediato).|
+| Mantenimiento    | Alto (requiere energía/red local)| Bajo (gestionado por proveedor). |
+| Control          | Total y físico sobre la máquina. | Lógico total mediante SSH/Root.  |
++------------------+----------------------------------+----------------------------------+
