@@ -1,3 +1,32 @@
 Fase 3 - VirtualHost
 
-Configuraci�n y pruebas del VirtualHost.
+1. ¿Qué hace ProxyPass /api http://localhost:9000/api? Expliquen con sus palabras.
+El comando ProxyPass permite que Apache actúe como un intermediario (Reverse Proxy), reenvíe las solicitudes HTTP que recibe en la ruta /api hacia nuestra API de Node.js, la cual está funcionando de forma interna en el puerto 9000. De esta manera, los clientes pueden consumir los servicios de la API a través del servidor web principal sin necesidad de conectarse directamente al puerto del backend.
+
+2. ¿Qué diferencia hay entre ProxyPass y ProxyPassReverse?
+
+ProxyPass: Se encarga del flujo de ida; redirige y envía las peticiones del cliente que entran por Apache hacia el servidor backend (Node.js).
+
+ProxyPassReverse: Se encarga del flujo de vuelta; modifica y ajusta las cabeceras HTTP de respuesta que emite el backend para asegurar que el cliente siga viendo las rutas a través de Apache y no descubra la estructura o puertos internos.
+
+En resumen: ProxyPass envía las solicitudes al backend y ProxyPassReverse reescribe las respuestas del backend para mantener la coherencia de la navegación a través del proxy.
+
+3. Reto: ¿Qué pasaría si configtest falla? ¿Cómo lo depurarían entre todos?
+Si el comando sudo apache2ctl configtest falla, significa que Apache detectó un error de sintaxis o directivas mal escritas en sus archivos de configuración, por lo que no se debe recargar ni reiniciar el servicio para evitar caídas del servidor web.
+
+Para depurarlo en equipo, seguiríamos el siguiente proceso:
+
+1- Leer detenidamente el mensaje de error que arroja la consola para identificar exactamente en qué archivo y número de línea se encuentra la falla.
+
+2- Revisar el archivo de configuración afectado (por ejemplo, dulcehogar.local.conf), verificando la correcta apertura y cierre de etiquetas, la sintaxis de las rutas y la ortografía de las directivas.
+
+3- Comprobar que las dependencias lógicas y los módulos requeridos (como proxy, proxy_http y headers) se encuentren correctamente habilitados.
+
+4- Aplicar la corrección correspondiente en el archivo de texto.
+
+5- Volver a ejecutar sudo apache2ctl configtest tantas veces como sea necesario hasta que el sistema devuelva el mensaje Syntax OK.
+
+6- Recargar Apache de forma segura utilizando sudo systemctl reload apache2 y verificar la conectividad mediante curl.
+
+4. ¿Por qué el comando curl devuelve correctamente el saludo de la API a través de Apache?
+Porque Apache recibe la solicitud HTTP inicial en el puerto 80, reconoce la regla del Reverse Proxy configurada para la ruta /api y la reenvía de manera transparente hacia la API de Node.js en el puerto 9000. La API procesa el parámetro recibido (el nombre), genera la respuesta con el saludo y se la devuelve a Apache, el cual la entrega de vuelta al cliente de forma exitosa.
