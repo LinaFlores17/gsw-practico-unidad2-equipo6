@@ -1,0 +1,14 @@
+# Ignorar dependencias de Node
+node_modules/
+dist/
+
+# Ignorar archivos de configuración locales para que no se suban al repositorio
+package.json
+package-lock.json
+tsconfig.json
+
+# Archivos del sistema operativo
+.DS_Store
+Thumbs.db
+Desktop.ini
+*.log
