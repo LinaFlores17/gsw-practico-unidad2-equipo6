@@ -1,3 +1,28 @@
-Fase 4 - HTTPS
+FASE 4 - HTTPS
 
-Detalles de la configuraci�n HTTPS con certificado local.
+Pregunta 1: 
+¿Por qué certbot no funciona para el dominio dulcehogar.local?
+Certbot utiliza entidades certificadoras públicas (como Let's Encrypt) que requieren validar la propiedad del dominio a través de internet. 
+Debido a que "dulcehogar.local" es un dominio de uso exclusivamente interno (local) y no cuenta con registros DNS públicos, los servidores externos no pueden conectarse a él para realizar la verificación exigida.
+
+
+Pregunta 2: 
+¿Qué diferencia hay entre usar un certificado autofirmado vs uno firmado por mkcert?
+Un certificado autofirmado no tiene el respaldo de ninguna entidad certificadora, por lo que el navegador lo bloquea inmediatamente con una advertencia roja de seguridad. 
+Por el contrario, la herramienta mkcert genera su propia Autoridad Certificadora (CA) local, la cual se instala manualmente en el almacén de "Entidades de certificación raíz de confianza" de Windows. 
+Esto obliga al navegador a confiar en el certificado como si fuera emitido por una entidad comercial, cerrando el candado de seguridad.
+
+
+Pregunta 3: 
+Reto: Si el equipo decidiera desplegar la aplicación en un dominio público real (por ejemplo dulcehogar.com.sv), ¿qué pasos adicionales o diferentes deberían realizar?
+Se descartaría por completo el uso de mkcert. Los pasos correctos serían:
+1. Configurar los registros DNS (Tipo A) del dominio real para que apunten a la IP pública de nuestro servidor.
+2. Permitir el tráfico abriendo los puertos 80 y 443 en el firewall de red hacia el servidor.
+3. Instalar y ejecutar la herramienta certbot para generar, validar a través de internet e instalar automáticamente un certificado SSL real y válido a nivel global.
+
+
+Nota técnica sobre la evidencia adjunta:
+En la captura de pantalla (fase4-https-sin-advertencia.png) entregada en la ruta /api/saludo?nombre=Equipo, se visualiza un error HTTP 503 (Servicio no disponible). 
+Este es el comportamiento esperado y confirma que la directiva ProxyPass del Virtual Host está operando correctamente: 
+Apache recibe la conexión segura HTTPS en el puerto 8900 y deriva el tráfico hacia el puerto 9000. 
+Al no encontrarse en ejecución el servicio backend (API de Node.js de la Fase 3) en el entorno local, el proxy retorna correctamente el estado 503, validando la configuración.
