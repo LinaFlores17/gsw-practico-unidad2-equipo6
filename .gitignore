@@ -6,6 +6,7 @@ dist/
 package.json
 package-lock.json
 tsconfig.json
+informe.md
 
 # Archivos del sistema operativo
 .DS_Store

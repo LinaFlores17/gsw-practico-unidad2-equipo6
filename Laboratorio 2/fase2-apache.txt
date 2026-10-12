@@ -1,3 +1,16 @@
-Fase 2 - Apache
+FASE 2: CONFIGURACIÓN BÁSICA DEL SERVIDOR WEB (APACHE)
 
-Registros y observaciones de la instalaci�n y verificaci�n de Apache.
+1. Objetivo de la fase:
+Instalar y comprobar el funcionamiento base del servidor web Apache en el entorno de Ubuntu (WSL) antes de aplicar configuraciones avanzadas.
+
+2. Comandos principales utilizados:
+- sudo apt update && sudo apt install apache2 (Para instalar el servidor)
+- sudo service apache2 start (Para iniciar el servicio)
+
+3. Verificación de funcionamiento:
+Se configuró el archivo 'hosts' de Windows para apuntar el dominio 'dulcehogar.local' a la dirección local (127.0.0.1). 
+Al ingresar al navegador por el puerto 80 (HTTP normal), el servidor respondió correctamente mostrando la página por defecto de Apache ("Apache2 Ubuntu Default Page: It works!").
+
+4. Por qué se muestra esta página:
+El servidor muestra esta pantalla de bienvenida porque es la configuración de fábrica de Apache apuntando a la ruta '/var/www/html/'. 
+Esto demuestra que el servicio está activo, sin errores, y listo para que en la Fase 3 se configuren los VirtualHosts que enlazarán la ruta correcta de los archivos web del proyecto.
